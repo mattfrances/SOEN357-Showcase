@@ -14,6 +14,17 @@
   border-radius: 20px;
 }
 
+.post__tags {
+  display: flex;
+}
+
+.post__tag {
+  padding: 10px;
+  background-color: aquamarine;
+  border-radius: 25px;
+  margin-right: 5px;
+}
+
 .post__footer {
   display: flex;
   justify-content: space-between;

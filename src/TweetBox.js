@@ -29,6 +29,7 @@ function TweetBox() {
 
     setTweetMessage("");
     setTweetImage("");
+    setTweetTags("");
   };
 
   return (

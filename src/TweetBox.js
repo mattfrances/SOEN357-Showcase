@@ -6,16 +6,23 @@ import db from "./firebase";
 function TweetBox() {
   const [tweetMessage, setTweetMessage] = useState("");
   const [tweetImage, setTweetImage] = useState("");
+  const [tweetTags, setTweetTags] = useState("");
 
   const sendTweet = (e) => {
     e.preventDefault();
 
+    const tags = new Set()
+    const splitTags = tweetTags.split(",");
+    splitTags.forEach(item => tags.add(item));
+    const tagArray = Array.from(tags);
+
     db.collection("posts").add({
-      displayName: "Rafeh Qazi",
-      username: "cleverqazi",
+      displayName: "Astro Mans",
+      username: "bastro",
       verified: true,
       text: tweetMessage,
       image: tweetImage,
+      tags: tagArray,
       avatar:
         "https://kajabi-storefronts-production.global.ssl.fastly.net/kajabi-storefronts-production/themes/284832/settings_images/rLlCifhXRJiT0RoN2FjK_Logo_roundbackground_black.png",
     });
@@ -36,6 +43,15 @@ function TweetBox() {
             type="text"
           />
         </div>
+
+        <input
+          value={tweetTags}
+          onChange={(e) => setTweetTags(e.target.value)}
+          className="tweetBox__imageInput"
+          placeholder="Enter tags separated by commas..."
+          type="text"
+        />
+        
         <input
           value={tweetImage}
           onChange={(e) => setTweetImage(e.target.value)}

@@ -1,5 +1,5 @@
 .widgets {
-  flex: 0.3;
+  flex: 0.4;
 }
 
 .widgets__input {
@@ -15,6 +15,7 @@
 .widgets__input > input {
   border: none;
   background-color: var(--twitter-background);
+  width: 100%;
 }
 
 .widgets__searchIcon {

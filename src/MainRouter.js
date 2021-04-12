@@ -28,7 +28,7 @@ import GlobalStyle from "./themes/GlobalStyle";
 import firebase from "./firebase.js";
 import "firebase/firestore";
 import { colors } from "./themes";
-import { sendPushNotification } from "./helpers/cloudFunctions";
+// import { sendPushNotification } from "./helpers/cloudFunctions";
 
 const AppWrapper = styled.div`
   height: 100%;
@@ -44,11 +44,11 @@ const MainRouter = () => {
   const db = firebase.firestore();
 
   useEffect(() => {
-    sendPushNotification({
-      token: userState.userData.pushTokenWeb,
-      title: "Boop",
-      body: "shoop"
-    });
+    // sendPushNotification({
+    //   token: userState.userData.pushTokenWeb,
+    //   title: "Boop",
+    //   body: "shoop"
+    // });
 
     firebase.auth().onAuthStateChanged(user => {
       if (!!user) {

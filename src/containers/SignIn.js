@@ -52,7 +52,8 @@ const SignIn = () => {
     if (email && email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       window.localStorage.setItem("confirmationEmail", email);
       const actionCodeSettings = {
-        url: "http://" + process.env.REACT_APP_BASE_URL + "/confirmed",
+        //TODO fixme
+        url: "http://" + 'localhost:3000' + "/confirmed",
         handleCodeInApp: true
       };
       firebase

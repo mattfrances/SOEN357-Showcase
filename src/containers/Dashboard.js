@@ -13,37 +13,37 @@ const Dashboard = () => {
   const { sendMessage } = useContext(ToastContext);
   const db = firebase.firestore();
 
-  useEffect(() => {
-    if (
-      (moreInfoComplete || userState.userData.firstName) &&
-      "Notification" in window &&
-      Notification.permission === "default"
-    ) {
-      requestNotifications();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (
+  //     (moreInfoComplete || userState.userData.firstName) &&
+  //     "Notification" in window &&
+  //     Notification.permission === "default"
+  //   ) {
+  //     requestNotifications();
+  //   }
+  // }, []);
 
-  const requestNotifications = () => {
-    Notification.requestPermission().then(permission => {
-      if (permission === "granted") {
-        const messaging = firebase.messaging();
-        messaging
-          .getToken()
-          .then(currentToken => {
-            db.collection("users")
-              .doc(firebase.auth().currentUser.uid)
-              .set({ pushTokenWeb: currentToken }, { merge: true })
-              .then(() => {
-                sendMessage("Notifications activated!");
-              })
-              .catch(err => console.log(err));
-          })
-          .catch(err => {
-            console.log("An error occurred while retrieving token.", err);
-          });
-      }
-    });
-  };
+  // const requestNotifications = () => {
+  //   Notification.requestPermission().then(permission => {
+  //     if (permission === "granted") {
+  //       const messaging = firebase.messaging();
+  //       messaging
+  //         .getToken()
+  //         .then(currentToken => {
+  //           db.collection("users")
+  //             .doc(firebase.auth().currentUser.uid)
+  //             .set({ pushTokenWeb: currentToken }, { merge: true })
+  //             .then(() => {
+  //               sendMessage("Notifications activated!");
+  //             })
+  //             .catch(err => console.log(err));
+  //         })
+  //         .catch(err => {
+  //           console.log("An error occurred while retrieving token.", err);
+  //         });
+  //     }
+  //   });
+  // };
 
   const onClickSubmit = e => {
     e.preventDefault();
@@ -67,7 +67,7 @@ const Dashboard = () => {
           });
           setMoreInfoComplete(true);
           sendMessage("Welcome!");
-          requestNotifications();
+          // requestNotifications();
         });
     } else {
       sendMessage("Please complete the form.");
@@ -110,50 +110,8 @@ const Dashboard = () => {
   const dashboard = () => {
     return (
       <BodyWrapper>
-        <H1>Dashboard</H1>
-        <P>
-          So this is your dashboard. Maybe you'll put a few graphs here, you've
-          always wanted to try out D3. Maybe a news feed, or updates on new
-          features.
-        </P>
-        <P>
-          So this is your dashboard. Maybe you'll put a few graphs here, you've
-          always wanted to try out D3. Maybe a news feed, or updates on new
-          features. So this is your dashboard. Maybe you'll put a few graphs
-          here, you've always wanted to try out D3. Maybe a news feed, or
-          updates on new features. So this is your dashboard. Maybe you'll put a
-          few graphs here, you've always wanted to try out D3. Maybe a news
-          feed, or updates on new features.
-        </P>
-        <P>
-          So this is your dashboard. Maybe you'll put a few graphs here, you've
-          always wanted to try out D3. Maybe a news feed, or updates on new
-          features.
-        </P>
-        <P>
-          So this is your dashboard. Maybe you'll put a few graphs here, you've
-          always wanted to try out D3. Maybe a news feed, or updates on new
-          features. So this is your dashboard. Maybe you'll put a few graphs
-          here, you've always wanted to try out D3. Maybe a news feed, or
-          updates on new features.
-        </P>
-        <P>
-          So this is your dashboard. Maybe you'll put a few graphs here, you've
-          always wanted to try out D3. Maybe a news feed, or updates on new
-          features.
-        </P>
-        <P>
-          So this is your dashboard. Maybe you'll put a few graphs here, you've
-          always wanted to try out D3. Maybe a news feed, or updates on new
-          features. So this is your dashboard. Maybe you'll put a few graphs
-          here, you've always wanted to try out D3. Maybe a news feed, or
-          updates on new features.
-        </P>
-        <P>
-          So this is your dashboard. Maybe you'll put a few graphs here, you've
-          always wanted to try out D3. Maybe a news feed, or updates on new
-          features.
-        </P>
+        {/* <Feed/> */}
+        The feed goes here
       </BodyWrapper>
     );
   };

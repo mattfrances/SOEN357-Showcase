@@ -162,7 +162,7 @@ const MenuOverlay = props => {
                 Profile
               </MenuItem>
             </CSSTransition>
-            <CSSTransition child={2} timeout={1000} classNames="fade">
+            {/* <CSSTransition child={2} timeout={1000} classNames="fade">
               <MenuItem
                 onClick={() => {
                   window.location.href =
@@ -171,7 +171,7 @@ const MenuOverlay = props => {
               >
                 Github
               </MenuItem>
-            </CSSTransition>
+            </CSSTransition> */}
             <CSSTransition child={3} timeout={1000} classNames="fade">
               <MenuItem onClick={signOut}>Sign out</MenuItem>
             </CSSTransition>

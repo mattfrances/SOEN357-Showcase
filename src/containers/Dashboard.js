@@ -1,9 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { P, H1, Button, Input, Form, BodyWrapper } from "../components";
 import { UserContext } from "../contexts/userContext";
+import { makeStyles } from '@material-ui/core/styles';
 import { ToastContext } from "../contexts/toastContext";
 import firebase from "../firebase.js";
+import Post from "../components/Feed/Post"
 import "firebase/firestore";
+import Grid from '@material-ui/core/Grid';
 
 const Dashboard = () => {
   const [firstName, setFirstName] = useState(null);
@@ -12,38 +15,6 @@ const Dashboard = () => {
   const { userState, userDispatch } = useContext(UserContext);
   const { sendMessage } = useContext(ToastContext);
   const db = firebase.firestore();
-
-  // useEffect(() => {
-  //   if (
-  //     (moreInfoComplete || userState.userData.firstName) &&
-  //     "Notification" in window &&
-  //     Notification.permission === "default"
-  //   ) {
-  //     requestNotifications();
-  //   }
-  // }, []);
-
-  // const requestNotifications = () => {
-  //   Notification.requestPermission().then(permission => {
-  //     if (permission === "granted") {
-  //       const messaging = firebase.messaging();
-  //       messaging
-  //         .getToken()
-  //         .then(currentToken => {
-  //           db.collection("users")
-  //             .doc(firebase.auth().currentUser.uid)
-  //             .set({ pushTokenWeb: currentToken }, { merge: true })
-  //             .then(() => {
-  //               sendMessage("Notifications activated!");
-  //             })
-  //             .catch(err => console.log(err));
-  //         })
-  //         .catch(err => {
-  //           console.log("An error occurred while retrieving token.", err);
-  //         });
-  //     }
-  //   });
-  // };
 
   const onClickSubmit = e => {
     e.preventDefault();
@@ -108,10 +79,20 @@ const Dashboard = () => {
   };
 
   const dashboard = () => {
+    const posts = [1,2,3]
     return (
       <BodyWrapper>
-        {/* <Feed/> */}
-        The feed goes here
+        <div style={{marginTop:'30px'}}>
+        <Grid justify="center" container spacing={3}>
+          {posts.map(x => {
+            return(
+          <Grid justify="center" align="center"  item xs={12}>
+            <Post/>
+          </Grid>
+            )
+          })}
+        </Grid>
+        </div>
       </BodyWrapper>
     );
   };

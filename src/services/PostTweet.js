@@ -4,6 +4,8 @@ const postTweet = async (
   authorId,
   text,
   imgLink = null,
+  tags = [],
+  gitHubURL = "",
   parentTweet = null
 ) => {
   console.log(authorId, text, imgLink, parentTweet);
@@ -12,6 +14,8 @@ const postTweet = async (
     text,
     parentTweet,
     imgLink,
+    tags,
+    gitHubURL,
     createdAt: firebase.firestore.Timestamp.now(),
   });
 };

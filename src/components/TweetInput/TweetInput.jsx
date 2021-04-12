@@ -7,6 +7,7 @@ import UserContext from "../../context/UserContext";
 import firebase from "../../firebase/init";
 import postTweet from "../../services/PostTweet";
 import Avatar from "../Avatar/Avatar";
+import ChipInput from 'material-ui-chip-input';
 
 const TweetInput = () => {
   const { user } = useContext(UserContext);
@@ -14,6 +15,9 @@ const TweetInput = () => {
   const [imgLink, setImgLink] = useState(null);
   const [file, setFile] = useState(null);
   const [tweeting, setTweeting] = useState(false);
+
+  const [tags, setTags] = useState([]);
+  const [githubURL, setGithubURL] = useState("");
 
   const fileInputRef = React.createRef();
 
@@ -23,6 +27,16 @@ const TweetInput = () => {
     const link = await storageRef.getDownloadURL("tweets/" + file.name);
     return link;
   };
+
+  const addTag = (tagName) => {
+    const tagSet = new Set(tags);
+    tagSet.add(tagName);
+    setTags(Array.from(tagSet));
+  }
+
+  const removeTag = (tagName) => {
+    setTags(tags.filter(tag => tag !== tagName));
+  }
 
   return (
     <div className=" bg-white rounded-lg h-auto overflow-hidden ">
@@ -43,22 +57,49 @@ const TweetInput = () => {
                     if (file) {
                       imgLink = await uploadFile();
                     }
-                    await postTweet(user.uid, tweet.trim(), imgLink);
+                    await postTweet(user.uid, tweet.trim(), imgLink, tags, githubURL.trim());
                     setTweeting(false);
                     setFile(null);
                     setTweet("");
                     setImgLink(null);
+                    setTags("");
+                    setGithubURL("");
                   }
                   postTweetandUploadFile();
                 }}>
                 <textarea
                   className="w-full h-16 font-noto font-medium text-base text-gray-500"
                   name="tweet-input"
-                  placeholder="What's Happening?"
+                  placeholder="Description"
                   type="text"
                   value={tweet}
                   onChange={(e) => setTweet(e.target.value)}
                   required></textarea>
+                <div className="flex-row">
+                  <div className="flex flex-row w-full items-center">
+                    <label className="text-gray-400">Tags:</label>
+                    <div className="ml-6 bg-gray-300 w-full">
+                      <ChipInput
+                        fullWidth
+                        placeholder='Type and press enter to add chips'
+                        value={tags}
+                        onAdd={(chip) => addTag(chip)}
+                        onDelete={(chip) => removeTag(chip)}
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-2 flex flex-row w-full items-center">
+                    <label className="text-gray-400" htmlFor="tags">GitHub:</label>
+                    <input 
+                      id="tags" 
+                      className="w-full ml-2 bg-gray-300	px-4 py-3 rounded outline-none text-sm" 
+                      type="text" 
+                      placeholder="Enter URL..."
+                      value={githubURL}
+                      onChange={(e) => setGithubURL(e.target.value)}
+                    />
+                  </div>
+                </div>
                 <div className="flex items-center mt-3">
                   <div className="mx-2">
                     <input

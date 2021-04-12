@@ -103,11 +103,9 @@ const Home = () => {
               ) : (
                 homeTweets.map((tweet) => (
                   <span key={tweet.id}>
-                    <Link href={`${tweet.author.username}/status/${tweet.id}`}>
-                      <div className="mb-5">
-                        <Post tweet={tweet} />
-                      </div>
-                    </Link>
+                    <div className="mb-5">
+                      <Post tweet={tweet} />
+                    </div>
                   </span>
                 ))
               )}

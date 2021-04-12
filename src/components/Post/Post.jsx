@@ -123,8 +123,13 @@ const Post = ({ tweet }) => {
     setSaves((await fetchTweetSaves(localTweet.id)).size);
   }, []);
 
+  const searchTag = (tagName) => {
+    // TODO - Implement this page redirect
+    console.log(tagName);
+  }
+
   return (
-    <div className="p-5 bg-white rounded-lg hover:bg-gray-100 cursor-pointer">
+    <div className="p-5 bg-white rounded-lg">
       <div className="flex items-center content-evenly">
         <div className="w-16 h-16 overflow-hidden rounded-lg m-4">
           <Avatar src={localTweet.author.profilePicture} />
@@ -159,9 +164,16 @@ const Post = ({ tweet }) => {
         )}
       </div>
       <span>
-        <div className="font-noto text-base font-normal pt-4">
-          {localTweet.text}
+        <div className="flex flex-row font-noto text-base font-normal pt-4">
+            <p className="text-gray-600 mr-5">Description:</p>
+            {<p>{localTweet.text}</p>}
         </div>
+        {tweet.gitHubURL && (
+          <div className="my-2 flex flex-row flex-wrap">
+            <p className="text-gray-600 mr-5">GitHub URL:</p>
+            {<a href={tweet.gitHubURL} target="_blank" className="text-blue-500">{tweet.gitHubURL}</a>}
+          </div>
+        )}
         {tweet.imgLink && (
           <div
             className="my-5 overflow-hidden rounded-lg"
@@ -179,6 +191,11 @@ const Post = ({ tweet }) => {
                 alt="POST IMG HERE"
               />
             </a>
+          </div>
+        )}
+        {tweet.tags && (
+          <div className="-mt-2 flex flex-row flex-wrap">
+            {tweet.tags.map((tag, index) => <p key={index} onClick={() => searchTag(tag)} className="mr-2 mt-2 bg-green-300 hover:bg-green-400 cursor-pointer px-3 py-2 rounded-full	">{tag}</p>)}
           </div>
         )}
         <div className="flex flex-row justify-end my-5">

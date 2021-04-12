@@ -77,7 +77,7 @@ const HeaderWithRouter = props => {
           <CompanyLogo
             onClick={() => (userId ? pushTo("/dashboard") : pushTo("/"))}
           >
-            Showoff
+            Showcase
           </CompanyLogo>
           {userId && menuButtonState()}
         </HeaderInner>

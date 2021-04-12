@@ -3,8 +3,6 @@ import {
   P,
   H1,
   Button,
-  FacebookAuth,
-  GoogleAuth,
   Input,
   Form,
   Overlay,
@@ -40,8 +38,7 @@ const AuthSeparator = styled.div`
 `;
 
 const SignIn = () => {
-  const [facebookLoadState, setFacebookLoadState] = useState(false);
-  const [googleLoadState, setGoogleLoadState] = useState(false);
+
   const [email, setEmail] = useState("");
   const { sendMessage } = useContext(ToastContext);
   const { userState, userDispatch } = useContext(UserContext);
@@ -75,59 +72,7 @@ const SignIn = () => {
     }
   };
 
-  const authWithFacebook = () => {
-    setFacebookLoadState(true);
-    const facebookProvider = new firebase.auth.FacebookAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(facebookProvider)
-      .then(result => {
-        if (result.additionalUserInfo.isNewUser) {
-          db.collection("users")
-            .doc(result.user.uid)
-            .set({
-              email: result.additionalUserInfo.profile.email
-            });
-        }
-      })
-      .catch(err => {
-        if (err.code === "auth/account-exists-with-different-credential") {
-          sendMessage(
-            "It looks like the email address associated with your Facebook account has already been used to sign in with another method. Please sign in using the original method you signed up with."
-          );
-        } else {
-          sendMessage(err.message);
-        }
-        setFacebookLoadState(false);
-      });
-  };
 
-  const authWithGoogle = () => {
-    setGoogleLoadState(true);
-    const googleProvider = new firebase.auth.GoogleAuthProvider();
-    firebase
-      .auth()
-      .signInWithPopup(googleProvider)
-      .then(result => {
-        if (result.additionalUserInfo.isNewUser) {
-          db.collection("users")
-            .doc(result.user.uid)
-            .set({
-              email: result.additionalUserInfo.profile.email
-            });
-        }
-      })
-      .catch(err => {
-        if (err.code === "auth/account-exists-with-different-credential") {
-          sendMessage(
-            "It looks like the email address associated with your Facebook account has already been used to sign in with another method. Please sign in using the original method you signed up with."
-          );
-        } else {
-          sendMessage(err.message);
-        }
-        setGoogleLoadState(false);
-      });
-  };
 
   const overlay = () => {
     return (
@@ -168,15 +113,6 @@ const SignIn = () => {
             </Button>
           </div>
         </Form>
-        <AuthSeparator>
-          <span>OR</span>
-        </AuthSeparator>
-        <FacebookAuth
-          marginBottom
-          loading={facebookLoadState}
-          onClick={authWithFacebook}
-        />
-        <GoogleAuth loading={googleLoadState} onClick={authWithGoogle} />
       </BodyWrapper>
     </>
   );

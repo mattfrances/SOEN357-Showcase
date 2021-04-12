@@ -46,26 +46,3 @@ const SocialConstructor = props => {
     </AuthButton>
   );
 };
-
-export const FacebookAuth = props => {
-  return (
-    <SocialConstructor
-      {...props}
-      logo={icons.facebook}
-      company="Facebook"
-      onClick={props.onClick}
-    />
-  );
-};
-
-export const GoogleAuth = props => {
-  return (
-    <SocialConstructor
-      background
-      {...props}
-      logo={icons.google}
-      company="Google"
-      onClick={props.onClick}
-    />
-  );
-};

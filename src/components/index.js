@@ -15,7 +15,6 @@ import Hamburger from "./Hamburger";
 import Close from "./Close";
 import Switch from "./Switch";
 import Overlay from "./Overlay";
-import { GoogleAuth, FacebookAuth } from "./SocialAuthButton";
 
 export {
   Input,
@@ -33,8 +32,6 @@ export {
   Close,
   Form,
   Overlay,
-  GoogleAuth,
-  FacebookAuth,
   BodyWrapper,
   MobileMenuBar
 };

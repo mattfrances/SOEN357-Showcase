@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ToastContext } from "../contexts/toastContext";
 import firebase from "../firebase.js";
 import Post from "../components/Feed/Post"
+import MakePost from "../components/Feed/MakePost"
 import "firebase/firestore";
 import Grid from '@material-ui/core/Grid';
 
@@ -84,6 +85,9 @@ const Dashboard = () => {
       <BodyWrapper>
         <div style={{marginTop:'30px'}}>
         <Grid justify="center" container spacing={3}>
+          <Grid justify="center" align="center"  item xs={12}>
+            <MakePost />
+          </Grid>
           {posts.map(x => {
             return(
           <Grid justify="center" align="center"  item xs={12}>

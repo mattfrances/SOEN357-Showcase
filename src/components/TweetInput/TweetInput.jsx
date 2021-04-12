@@ -11,6 +11,7 @@ import ChipInput from 'material-ui-chip-input';
 
 const TweetInput = () => {
   const { user } = useContext(UserContext);
+  const [title, setTitle] = useState("");
   const [tweet, setTweet] = useState("");
   const [imgLink, setImgLink] = useState(null);
   const [file, setFile] = useState(null);
@@ -57,7 +58,7 @@ const TweetInput = () => {
                     if (file) {
                       imgLink = await uploadFile();
                     }
-                    await postTweet(user.uid, tweet.trim(), imgLink, tags, githubURL.trim());
+                    await postTweet(user.uid, title, tweet.trim(), imgLink, tags, githubURL.trim());
                     setTweeting(false);
                     setFile(null);
                     setTweet("");
@@ -67,15 +68,23 @@ const TweetInput = () => {
                   }
                   postTweetandUploadFile();
                 }}>
-                <textarea
-                  className="w-full h-16 font-noto font-medium text-base text-gray-500"
-                  name="tweet-input"
-                  placeholder="Description"
-                  type="text"
-                  value={tweet}
-                  onChange={(e) => setTweet(e.target.value)}
-                  required></textarea>
-                <div className="flex-row">
+                  <div className="flex flex-row w-full items-center">
+                    <label className="text-gray-400">Title:</label>
+                    <input className="ml-6 bg-gray-300 w-full outline-none p-2" placeholder="Enter title..." value={title} onChange={(e) => setTitle(e.target.value)} />
+                  </div>
+                  <div className="mt-2 flex flex-row w-full items-center">
+                    <label className="text-gray-400">Description:</label>
+                    <textarea
+                      className="w-full h-16 font-noto font-medium text-base text-gray-500 outline-none bg-gray-300 ml-6 p-2"
+                      name="tweet-input"
+                      placeholder="Description"
+                      type="text"
+                      value={tweet}
+                      onChange={(e) => setTweet(e.target.value)}
+                      required
+                    />
+                  </div>
+                <div className="mt-2 flex-row">
                   <div className="flex flex-row w-full items-center">
                     <label className="text-gray-400">Tags:</label>
                     <div className="ml-6 bg-gray-300 w-full">

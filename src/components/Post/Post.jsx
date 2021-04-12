@@ -164,14 +164,17 @@ const Post = ({ tweet }) => {
         )}
       </div>
       <span>
+      <div className="flex flex-row font-noto text-base font-normal pt-4">
+          <p className="font-semibold text-lg">{localTweet.title}</p>
+        </div>
         <div className="flex flex-row font-noto text-base font-normal pt-4">
             <p className="text-gray-600 mr-5">Description:</p>
-            {<p>{localTweet.text}</p>}
+            <p>{localTweet.text}</p>
         </div>
         {tweet.gitHubURL && (
           <div className="my-2 flex flex-row flex-wrap">
             <p className="text-gray-600 mr-5">GitHub URL:</p>
-            {<a href={tweet.gitHubURL} target="_blank" className="text-blue-500">{tweet.gitHubURL}</a>}
+            <a href={tweet.gitHubURL} target="_blank" className="text-blue-500">{tweet.gitHubURL}</a>
           </div>
         )}
         {tweet.imgLink && (

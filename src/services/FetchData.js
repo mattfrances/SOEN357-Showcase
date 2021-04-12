@@ -103,6 +103,27 @@ export const fetchTweetSaves = (tweetID) => {
     .get();
 };
 
+export const fetchTweets = (queryParams) => {
+  let dbQuery = firebase.firestore().collection("tweets");
+  
+  if (queryParams.tags.length > 0) {
+    queryParams.tags.forEach(tag => {
+      dbQuery = dbQuery.where("tags", "array-contains", tag);
+    });
+  }
+  if (queryParams.titleFields.length > 0) {
+    queryParams.titleFields.forEach(field => {
+      dbQuery = dbQuery.where("titleFields", "array-contains", field);
+    });
+  }
+
+  if (queryParams.text) {
+
+  }
+
+  return dbQuery.get(); 
+}
+
 const fetchAllUserData = async (username) => {
   let fetchedUser = await fetchUser({ username });
   if (fetchedUser === null) {

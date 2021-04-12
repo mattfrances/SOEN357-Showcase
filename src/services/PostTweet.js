@@ -2,6 +2,7 @@ import firebase from "../firebase/init";
 
 const postTweet = async (
   authorId,
+  title,
   text,
   imgLink = null,
   tags = [],
@@ -9,8 +10,12 @@ const postTweet = async (
   parentTweet = null
 ) => {
   console.log(authorId, text, imgLink, parentTweet);
+  const titleFields = title.split(' ');
+
   await firebase.firestore().collection("tweets").add({
     authorId,
+    title,
+    titleFields,
     text,
     parentTweet,
     imgLink,

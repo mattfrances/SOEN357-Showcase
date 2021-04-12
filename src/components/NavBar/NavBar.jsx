@@ -42,6 +42,18 @@ const NavBar = () => {
             </li>
           </Link>
           {user && (
+            <Link href="/search">
+              <li
+                className={`list-none inline-block mx-20 cursor-pointer ${
+                  router.route === "/search"
+                    ? "text-primary font-semibold"
+                    : ""
+                }`}>
+                Search
+              </li>
+            </Link>
+          )}
+          {user && (
             <Link href="/bookmarks">
               <li
                 className={`list-none inline-block mx-20 cursor-pointer ${

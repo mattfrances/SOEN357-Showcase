@@ -8,10 +8,12 @@ import Post from "../components/Feed/Post"
 import MakePost from "../components/Feed/MakePost"
 import "firebase/firestore";
 import Grid from '@material-ui/core/Grid';
+import {convertTimestamp} from 'convert-firebase-timestamp'
 
 const Dashboard = () => {
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
+  const [uni, setUni] = useState(null);
   const [moreInfoComplete, setMoreInfoComplete] = useState(false);
   const { userState, userDispatch } = useContext(UserContext);
   const { sendMessage } = useContext(ToastContext);
@@ -25,7 +27,8 @@ const Dashboard = () => {
         .set(
           {
             firstName: firstName,
-            lastName: lastName
+            lastName: lastName,
+            uni
           },
           { merge: true }
         )
@@ -73,6 +76,13 @@ const Dashboard = () => {
               autoComplete="family-name"
             />
           </div>
+          <div>
+            <Input
+              onChange={e => setUni(e.target.value)}
+              name="uni"
+              placeholder="University/Company"
+            />
+          </div>
           <Button onClick={e => onClickSubmit(e)}>Submit</Button>
         </Form>
       </BodyWrapper>
@@ -80,18 +90,43 @@ const Dashboard = () => {
   };
 
   const dashboard = () => {
-    const posts = [1,2,3]
+    const [posts1, setPosts1] = useState([]);
+     useEffect( () => {
+      const p = [];
+      async function fetch() {
+        await firebase.firestore().collection('posts').get()
+        .then(querySnapshot => {
+          querySnapshot.docs.forEach(doc => {
+            const d = doc.data()
+            d.timestamp = convertTimestamp(d.timestamp)
+            p.push(d);
+        });
+      });
+      p.sort((a,b) => b.timestamp-a.timestamp)
+      setPosts1(p)
+      }
+      fetch()
+ 
+    }, [])
     return (
       <BodyWrapper>
         <div style={{marginTop:'30px'}}>
         <Grid justify="center" container spacing={3}>
-          <Grid justify="center" align="center"  item xs={12}>
+          <Grid  align="center"  item xs={12}>
             <MakePost />
           </Grid>
-          {posts.map(x => {
+          {posts1 && posts1.map((e, i) => {
             return(
-          <Grid justify="center" align="center"  item xs={12}>
-            <Post/>
+          <Grid key={i} align="center"  item xs={12}>
+            <Post
+            desc={e.desc}
+            email={e.email}
+            git={e.git}
+            imgUrl={e.imgUrl}
+            tags={e.tags}
+            title={e.title}
+            timestamp={e.timestamp}
+            />
           </Grid>
             )
           })}

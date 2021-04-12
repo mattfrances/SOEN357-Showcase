@@ -9,6 +9,7 @@ const Profile = () => {
   const { userState, userDispatch } = useContext(UserContext);
   const [firstName, setFirstName] = useState(userState.userData.firstName);
   const [lastName, setLastName] = useState(userState.userData.lastName);
+  const [uni, setUni] = useState(userState.userData.uni);
   const [loadState, setloadState] = useState(false);
   const { sendMessage } = useContext(ToastContext);
   const db = firebase.firestore();
@@ -18,14 +19,16 @@ const Profile = () => {
     if (firstName && lastName) {
       if (
         firstName !== userState.userData.firstName ||
-        lastName !== userState.userData.lastName
+        lastName !== userState.userData.lastName ||
+        uni !== userState.userData.uni
       ) {
         setloadState(true);
         db.collection("users")
           .doc(firebase.auth().currentUser.uid)
           .update({
             firstName: firstName,
-            lastName: lastName
+            lastName: lastName,
+            uni,
           })
           .then(() => {
             setloadState(false);
@@ -73,6 +76,13 @@ const Profile = () => {
             value={lastName}
           />
         </div>
+        <div>
+            <Input
+              onChange={e => setUni(e.target.value)}
+              name="uni"
+              placeholder="University/Company"
+            />
+          </div>
         <div>
           <Button loading={loadState} onClick={e => onClickSubmit(e)}>
             Submit

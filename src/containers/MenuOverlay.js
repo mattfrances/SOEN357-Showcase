@@ -154,6 +154,14 @@ const MenuOverlay = props => {
                 Dashboard
               </MenuItem>
             </CSSTransition>
+            <CSSTransition child={0} timeout={1000} classNames="fade">
+              <MenuItem
+                samePath={samePath("/search")}
+                onClick={() => pushTo("/search")}
+              >
+                Search
+              </MenuItem>
+            </CSSTransition>
             <CSSTransition child={1} timeout={1000} classNames="fade">
               <MenuItem
                 samePath={samePath("/profile")}

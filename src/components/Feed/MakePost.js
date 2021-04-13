@@ -102,7 +102,7 @@ export default function MakePost() {
     <TextField required onChange={e => setGit(e.target.value)} className={classes.tf} id="git" label="Enter your GitHub repo" />
       </CardContent>
       <CardActions>
-        <Button disabled={!title || !desc || !git} onClick={()=> addPost()} size="small" color="primary">
+        <Button variant="contained" disabled={!title || !desc || !git} onClick={()=> addPost()} size="small" color="primary">
           Post
         </Button>
       </CardActions>

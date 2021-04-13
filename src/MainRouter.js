@@ -12,6 +12,7 @@ import Dashboard from "./containers/Dashboard";
 import Confirmed from "./containers/Confirmed";
 import Profile from "./containers/Profile";
 import Header from "./containers/Header";
+import SearchPage from "./components/Search/SearchPage";
 import PrivacyPolicy from "./containers/PrivacyPolicy";
 import { UserContext } from "./contexts/userContext";
 import {
@@ -134,6 +135,10 @@ const MainRouter = () => {
                   <Route
                     path={"/dashboard"}
                     render={() => routeWithAuth(<Dashboard />)}
+                  />
+                  <Route
+                    path={"/search"}
+                    render={() => routeWithAuth(<SearchPage />)}
                   />
                   <Route
                     path={"/profile"}

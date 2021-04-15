@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, useHistory } from "react-router-dom";
 import { Button, CenteredDiv, Message, Overlay } from "../components";
 import firebase from "../firebase.js";
 import "firebase/firestore";
@@ -68,9 +68,11 @@ const Confirmed = props => {
   };
 
   const confirmed = () => {
+    const history = useHistory()
     return (
       <CenteredDiv vertical horizontal>
         <Message>You are now confirmed! Navigate back to the app!</Message>
+        <Button onClick={()=>history.push('/dashboard')} >Go home!</Button>
       </CenteredDiv>
     );
   };

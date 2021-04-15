@@ -92,11 +92,7 @@ const SignIn = () => {
       <BodyWrapper>
         <H1>Sign Up/Sign In</H1>
         <P>
-          Signing in and signing up are the same process, and no password is
-          asked for...hopefully you don't mind! I believe that verification by
-          email is better for consumer trust in the era of so many data
-          breaches, and is arguably safer than a traditional authentication
-          setup.
+          Welcome to Showcase!
         </P>
         <Form>
           <div>

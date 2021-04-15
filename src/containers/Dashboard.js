@@ -17,7 +17,27 @@ const Dashboard = () => {
   const [moreInfoComplete, setMoreInfoComplete] = useState(false);
   const { userState, userDispatch } = useContext(UserContext);
   const { sendMessage } = useContext(ToastContext);
-  const db = firebase.firestore();
+  const [posts1, setPosts1] = useState([]);
+  useEffect( () => {
+   const p = [];
+   async function fetch() {
+     await firebase.firestore().collection('posts').get()
+     .then(querySnapshot => {
+       querySnapshot.docs.forEach(doc => {
+         const d = doc.data()
+         d.timestamp = convertTimestamp(d.timestamp)
+         p.push(d);
+     });
+   });
+   p.sort((a,b) => b.timestamp-a.timestamp)
+   setPosts1(p)
+   }
+   fetch()
+
+ }, [moreInfoComplete])
+
+ const db = firebase.firestore();
+
 
   const onClickSubmit = e => {
     e.preventDefault();
@@ -90,24 +110,7 @@ const Dashboard = () => {
   };
 
   const dashboard = () => {
-    const [posts1, setPosts1] = useState([]);
-     useEffect( () => {
-      const p = [];
-      async function fetch() {
-        await firebase.firestore().collection('posts').get()
-        .then(querySnapshot => {
-          querySnapshot.docs.forEach(doc => {
-            const d = doc.data()
-            d.timestamp = convertTimestamp(d.timestamp)
-            p.push(d);
-        });
-      });
-      p.sort((a,b) => b.timestamp-a.timestamp)
-      setPosts1(p)
-      }
-      fetch()
- 
-    }, [])
+
     return (
       <BodyWrapper>
         <div style={{marginTop:'30px'}}>
@@ -135,9 +138,13 @@ const Dashboard = () => {
       </BodyWrapper>
     );
   };
-  return moreInfoComplete || userState.userData.firstName
-    ? dashboard()
-    : moreInfo();
-};
+  if(moreInfoComplete || userState.userData.firstName){
+    console.log(dashboard() === undefined)
+    return dashboard();
+  }
+  else{
+    return moreInfo()
+  }
+}
 
 export default Dashboard;

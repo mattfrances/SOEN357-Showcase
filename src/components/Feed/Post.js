@@ -90,8 +90,8 @@ export default function Post(props) {
          {title}
         </Typography>
         <div style={{marginBottom: '10px'}}>
-          {tags.map(tag => 
-            <ColorButton component={ Link } to={`/search?tag=${tag}`} variant="contained" color="primary">
+          {tags.map((tag, i) => 
+            <ColorButton key={i} component={ Link } to={`/search?tag=${tag}`} variant="contained" color="primary">
                 {tag}
             </ColorButton>
           )}

@@ -78,6 +78,7 @@ const Profile = () => {
         </div>
         <div>
             <Input
+              value={uni}
               onChange={e => setUni(e.target.value)}
               name="uni"
               placeholder="University/Company"

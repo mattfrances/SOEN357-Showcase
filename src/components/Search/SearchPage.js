@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
-import { red } from '@material-ui/core/colors';
-import { P, H1, Button, Input, Form, BodyWrapper } from "../";
+import { P, Button, BodyWrapper } from "../";
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 import ChipInput from 'material-ui-chip-input'
 import firebase from 'firebase';
 import Post from '../Feed/Post';
@@ -131,6 +129,7 @@ export default function SearchPage() {
         const dataTitleFields = doc.data().title.split(' ').map(title => title.toLowerCase());
         const dataTags = doc.data().tags;
         const dataEmail = doc.data().email;
+        const misc = doc.data().misc;
 
         if (searchOption === "tags" || queryTag !== "") {
           if (queryTag !== "") {
@@ -154,6 +153,11 @@ export default function SearchPage() {
               postArray.push(data);
             }
           });
+        }
+        else if (searchOption === "misc") {          
+          if (misc === searchValue){
+            postArray.push(data)
+          }
         }
         else {
           if (dataEmail.toLowerCase() === searchValue.trim().toLowerCase()) {
@@ -182,6 +186,7 @@ export default function SearchPage() {
                 <FormControlLabel value="projects" control={<Radio />} label="Projects" />
                 <FormControlLabel value="tags" control={<Radio />} label="Tags" />
                 <FormControlLabel value="user" control={<Radio />} label="Users" />
+                <FormControlLabel value="misc" control={<Radio />} label="Uni/Company" />
               </RadioGroup>
             </FormControl>
             

@@ -50,7 +50,7 @@ const SignIn = () => {
       window.localStorage.setItem("confirmationEmail", email);
       const actionCodeSettings = {
         //TODO fixme
-        url: "http://" + 'localhost:3000' + "/confirmed",
+        url: "http://" + process.env.REACT_APP_BASE_URL + "/confirmed",
         handleCodeInApp: true
       };
       firebase

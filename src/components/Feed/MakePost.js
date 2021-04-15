@@ -6,17 +6,15 @@ import CardContent from '@material-ui/core/CardContent';
 import { red } from '@material-ui/core/colors';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import Button from '@material-ui/core/Button';
+import { UserContext } from "../../contexts/userContext";
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
 import ChipInput from 'material-ui-chip-input';
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import firebase from 'firebase';
 
 
 const db = firebase.firestore()
-
-
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MakePost() {
+  const { userState, userDispatch } = useContext(UserContext);
   const classes = useStyles();
   const [tags, setTags] = useState([]);
   const [title, setTitle] = useState("");
@@ -58,6 +57,7 @@ export default function MakePost() {
         email: firebase.auth().currentUser.email,
         uid : firebase.auth().currentUser.uid,
         timestamp: firebase.firestore.Timestamp.now(),
+        misc : userState.userData.uni
     }).then(() => location.reload()
     )
 }

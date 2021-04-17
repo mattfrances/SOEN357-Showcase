@@ -158,6 +158,7 @@ export default function SearchPage() {
           if (misc === searchValue){
             postArray.push(data)
           }
+          console.log(postArray)
         }
         else {
           if (dataEmail.toLowerCase() === searchValue.trim().toLowerCase()) {
@@ -228,7 +229,7 @@ export default function SearchPage() {
       </div>
 
       <div className={classes.postsWrapper}>
-        { posts.map(post => <Post key={post.uid} desc={post.desc} email={post.email} git={post.git} imgUrl={post.imgUrl} tags={post.tags} title={post.title} timestamp={convertTimestamp(post.timestamp)} />)}
+        { posts.map((post,i) => <Post key={i} desc={post.desc} email={post.email} git={post.git} imgUrl={post.imgUrl} tags={post.tags} title={post.title} timestamp={convertTimestamp(post.timestamp)} />)}
       </div>
 
     </BodyWrapper>

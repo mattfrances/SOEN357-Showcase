@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import { P, Button, BodyWrapper } from "../";
 import InputBase from '@material-ui/core/InputBase';
@@ -12,6 +12,9 @@ import firebase from 'firebase';
 import Post from '../Feed/Post';
 import qs from 'qs';
 import {convertTimestamp} from 'convert-firebase-timestamp'
+import {ToastContext} from "../../contexts/toastContext"
+import Grid from '@material-ui/core/Grid';
+
 
 const db = firebase.firestore()
 
@@ -74,25 +77,22 @@ const useStyles = makeStyles((theme) => ({
   postsWrapper: {
     textAlign: 'center',
   },
-  tagSearchWrapper: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-  },
-  buttonWrapper: {
-    marginTop: '10px',
-    marginLeft: 'auto',
+  ml: {
+    marginLeft: '50px'
   }
+
 }));
 
 export default function SearchPage() {
   const classes = useStyles();
   
-  const [searchOption, setSearchOption] = useState('projects');
+  const [searchOption, setSearchOption] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const [tags, setTags] = useState([]);
   
   const [posts, setPosts] = useState([]);
+  const { sendMessage } = useContext(ToastContext);
+
 
   
   useEffect(() => {
@@ -119,6 +119,11 @@ export default function SearchPage() {
   const handleDeleteTag = (tag) => {
     setTags(tags.filter(item => item !== tag));
   }
+  const _handleClick = () => {
+    if(!searchOption){
+      sendMessage("You must select a parameter to search by!")
+    }
+  }
 
   const search = async (queryTag="") => {
     let postArray = [];
@@ -129,7 +134,7 @@ export default function SearchPage() {
         const dataTitleFields = doc.data().title.split(' ').map(title => title.toLowerCase());
         const dataTags = doc.data().tags;
         const dataEmail = doc.data().email;
-        const misc = doc.data().misc;
+        const misc = doc.data().misc.toLowerCase();
 
         if (searchOption === "tags" || queryTag !== "") {
           if (queryTag !== "") {
@@ -155,7 +160,7 @@ export default function SearchPage() {
           });
         }
         else if (searchOption === "misc") {          
-          if (misc === searchValue){
+          if (misc === searchValue.toLowerCase()){
             postArray.push(data)
           }
           console.log(postArray)
@@ -184,14 +189,14 @@ export default function SearchPage() {
         <div className={classes.searchWrapper}>
             <FormControl component="fieldset">
               <RadioGroup aria-label="searchOption" name="searchOption" value={searchOption} onChange={handleSearchOptionChange}>
-                <FormControlLabel value="projects" control={<Radio />} label="Projects" />
+                <FormControlLabel value="projects" control={<Radio />} label="Project Title" />
                 <FormControlLabel value="tags" control={<Radio />} label="Tags" />
                 <FormControlLabel value="user" control={<Radio />} label="Users" />
-                <FormControlLabel value="misc" control={<Radio />} label="Uni/Company" />
+                <FormControlLabel value="misc" control={<Radio />} label="University/Company" />
               </RadioGroup>
             </FormControl>
             
-            {searchOption !== "tags" &&
+            {searchOption !== "tags" &&  
             <div className={classes.search}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
@@ -202,6 +207,8 @@ export default function SearchPage() {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
+                onClick = {_handleClick}
+                disabled={!searchOption}
                 inputProps={{ 'aria-label': 'search' }}
                 onKeyUp={(e) => e.key === 'Enter' && search()}
                 onChange={(e) => setSearchValue(e.target.value)}
@@ -211,19 +218,23 @@ export default function SearchPage() {
           }
 
           {searchOption === "tags" &&
-            <div className={classes.tagSearchWrapper}>
-              <div className={classes.search}>
+          
+            <Grid className={classes.ml}  container  direction="row-reverse"
+             spacing={3}>
+              <Grid item xs={12}>
                 <ChipInput
+                  placeholder='Type and press enter to add chips'
                   value={tags}
                   onAdd={(tag) => handleAddTag(tag)}
                   onDelete={(tag) => handleDeleteTag(tag)}
                   fullWidth
                 />
-              </div>
-              <div className={classes.buttonWrapper}>
-                <Button onClick={() => search()}>Search</Button>
-              </div>
-            </div>
+              </Grid>
+              <Grid item xs={12}>
+                <Button 
+                onClick={() => search()}>Search</Button>
+              </Grid>
+            </Grid>
           }
         </div>
       </div>

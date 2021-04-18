@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Route,
   Redirect,
-  Switch
+  Switch,
+  useHistory
 } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Lander from "./containers/Lander";
@@ -29,6 +30,16 @@ import GlobalStyle from "./themes/GlobalStyle";
 import firebase from "./firebase.js";
 import "firebase/firestore";
 import { colors } from "./themes";
+
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
+import InsideBar from "./InsideBar"
 // import { sendPushNotification } from "./helpers/cloudFunctions";
 
 const AppWrapper = styled.div`
@@ -38,18 +49,30 @@ const AppWrapper = styled.div`
   position: absolute;
 `;
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+  },
+  stuff : {
+    fontSize : '1.3em',
+  }
+}));
+
 const MainRouter = () => {
   const [initializationComplete, setInitComplete] = useState(false);
   const { userState, userDispatch } = useContext(UserContext);
   const userId = userState.userId;
   const db = firebase.firestore();
+  const classes = useStyles()
+
 
   useEffect(() => {
-    // sendPushNotification({
-    //   token: userState.userData.pushTokenWeb,
-    //   title: "Boop",
-    //   body: "shoop"
-    // });
 
     firebase.auth().onAuthStateChanged(user => {
       if (!!user) {
@@ -111,9 +134,10 @@ const MainRouter = () => {
 
   const nestedSwitch = () => {
     return (
-      <>
+      
+      <div>
         {userId && <MobileMenuBar />}
-        <Header />
+        <InsideBar/>
         <Route
           render={({ location }) => (
             <TransitionGroup appear>
@@ -154,7 +178,7 @@ const MainRouter = () => {
             </TransitionGroup>
           )}
         />
-      </>
+      </div>
     );
   };
 

@@ -46,7 +46,7 @@ const CompanyLogo = styled.button`
 `;
 
 const HeaderWithRouter = props => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(true);
   const { userState } = useContext(UserContext);
   const userId = userState.userId;
   const pushTo = path => {

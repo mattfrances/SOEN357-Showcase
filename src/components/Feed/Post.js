@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 const ColorButton = withStyles((theme) => ({
   root: {
     color: '#FFFFFF',
-    marginRight: '5px',
+    margin:'5px',
     borderRadius: 99999
   },
 }))(Button);

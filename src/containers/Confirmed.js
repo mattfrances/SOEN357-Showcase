@@ -43,7 +43,7 @@ const Confirmed = props => {
           }, 5000);
         })
         .catch(error => {
-          console.log(error);
+          console.error(error);
         });
     }
   };

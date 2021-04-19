@@ -57,7 +57,8 @@ const Dashboard = () => {
             type: "updateProfile",
             payload: {
               firstName: firstName,
-              lastName: lastName
+              lastName: lastName,
+              uni
             }
           });
           setMoreInfoComplete(true);
@@ -139,7 +140,6 @@ const Dashboard = () => {
     );
   };
   if(moreInfoComplete || userState.userData.firstName){
-    console.log(dashboard() === undefined)
     return dashboard();
   }
   else{

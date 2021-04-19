@@ -139,13 +139,13 @@ export default function SearchPage() {
         if (searchOption === "tags" || queryTag !== "") {
           if (queryTag !== "") {
             dataTags.forEach(tag => {
-              if (tag.toLowerCase() == queryTag.toLowerCase())
+              if (tag.toLowerCase() === queryTag.toLowerCase())
                 postArray.push(data);
             });
           }
           else {
             tags.forEach(tag => {
-              if (dataTags.includes(tag)) {
+              if (dataTags.includes(tag.toLowerCase())) {
                 postArray.push(data);
               }
             });
@@ -163,7 +163,6 @@ export default function SearchPage() {
           if (misc === searchValue.toLowerCase()){
             postArray.push(data)
           }
-          console.log(postArray)
         }
         else {
           if (dataEmail.toLowerCase() === searchValue.trim().toLowerCase()) {
@@ -174,7 +173,7 @@ export default function SearchPage() {
 
       setPosts(postArray);
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
 
   }
